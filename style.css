@@ -1,0 +1,269 @@
+/* RESET */
+* {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #f5f7f6;
+  min-height: 100vh;
+  color: #2f2f2f;
+}
+
+/* CENTRALIZA */
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* CARD */
+.card {
+  background: #ffffff;
+  width: 100%;
+  max-width: 460px;
+  padding: 30px 26px;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* TÍTULOS */
+h1 {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 18px;
+  color: #2e7d32;
+}
+
+h2 {
+  text-align: center;
+  font-size: 17px;
+  margin-bottom: 12px;
+  color: #444;
+}
+
+h3 {
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+
+/* BOTÕES MODALIDADE */
+.buttons {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.buttons button {
+  flex: 1;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid #dcdcdc;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  background: #ffffff;
+  color: #2f2f2f;
+}
+
+.buttons button:hover {
+  border-color: #2e7d32;
+  color: #2e7d32;
+}
+
+/* INPUTS E SELECT */
+input,
+select {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid #dcdcdc;
+  font-size: 15px;
+  margin-top: 10px;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #2e7d32;
+}
+
+/* PLANO */
+.plano {
+  margin-top: 18px;
+  padding: 16px;
+  border-radius: 12px;
+  background: #f9faf9;
+  border-left: 5px solid #2e7d32;
+}
+
+/* BOTÃO PRINCIPAL */
+button {
+  width: 100%;
+  padding: 15px;
+  margin-top: 20px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  background: linear-gradient(135deg, #2e7d32, #1b5e20);
+  color: #ffffff;
+}
+
+button:hover {
+  box-shadow: 0 8px 18px rgba(46, 125, 50, 0.3);
+}
+
+/* MATÉRIAS */
+.materias {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.materia {
+  flex: 1;
+  padding: 14px;
+  text-align: center;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  background: #f1f1f1;
+  color: #333;
+  border: 2px solid transparent;
+}
+
+/* CORES DAS MATÉRIAS */
+.materia.quimica.selected {
+  background: #e3f0ff;
+  border-color: #2f80ed;
+  color: #2f80ed;
+}
+
+.materia.fisica.selected {
+  background: #fff0e0;
+  border-color: #f2994a;
+  color: #f2994a;
+}
+
+.materia.biologia.selected {
+  background: #e8f5e9;
+  border-color: #2e7d32;
+  color: #2e7d32;
+}
+
+/* UTIL */
+.hidden {
+  display: none;
+}
+
+/* =====================================
+   MOBILE – LAYOUT ABERTO (SEM CARD)
+   ===================================== */
+@media (max-width: 600px) {
+
+  body {
+    background: #f5f7f6;
+  }
+
+  /* PAGE vira container normal */
+  .page {
+    display: block;
+    padding: 0;
+  }
+
+  /* CARD deixa de existir visualmente */
+  .card {
+    all: unset; /* REMOVE TUDO DO CARD */
+    display: block;
+    padding: 20px 16px 40px 16px;
+  }
+
+  /* TÍTULOS */
+  h1 {
+    font-size: 26px;
+    margin: 20px 0 24px;
+    text-align: left;
+  }
+
+  h2 {
+    font-size: 22px;
+    margin: 24px 0 16px;
+    text-align: left;
+  }
+
+  h3 {
+    font-size: 20px;
+  }
+
+  /* BOTÕES DE MODALIDADE (ESTILO APP) */
+  .buttons {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .buttons button {
+    padding: 22px;
+    font-size: 20px;
+    border-radius: 16px;
+  }
+
+  /* SELECTS GRANDES */
+  select {
+    width: 100%;
+    padding: 20px;
+    font-size: 20px;
+    border-radius: 16px;
+    margin-top: 16px;
+  }
+
+  /* INPUTS GRANDES */
+  input {
+    padding: 20px;
+    font-size: 20px;
+    border-radius: 16px;
+    margin-top: 16px;
+  }
+
+  /* BLOCO DO PLANO */
+  .plano {
+    margin-top: 24px;
+    padding: 20px;
+    border-radius: 16px;
+    font-size: 19px;
+  }
+
+  .plano p {
+    font-size: 19px;
+  }
+
+  /* MATÉRIAS – BOTÕES GRANDES */
+  .materias {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 20px;
+  }
+
+  .materia {
+    padding: 22px;
+    font-size: 20px;
+    border-radius: 16px;
+  }
+
+  /* BOTÃO PRINCIPAL FIXO E GRANDE */
+  button {
+    width: 100%;
+    padding: 24px;
+    font-size: 22px;
+    border-radius: 18px;
+    margin-top: 32px;
+  }
+
+}

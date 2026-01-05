@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Inscrição – Cursos NATCDF</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="page">
+      <div class="card">
+        <h1>Inscrição – NATUREZA CDF</h1>
+
+        <h2>Escolha a modalidade</h2>
+
+        <div class="buttons">
+          <button onclick="mostrarOnline()">Online</button>
+          <button onclick="mostrarPresencial()">Presencial</button>
+        </div>
+
+        <!-- ONLINE -->
+        <div id="online" class="hidden">
+          <h2>Curso Online</h2>
+
+          <select id="selectOnline" onchange="mostrarPlanoOnline()">
+            <option value="">Selecione o curso</option>
+            <option value="natureza-online">NATUREZA CDF Online</option>
+          </select>
+
+          <div id="planoOnline" class="plano hidden"></div>
+        </div>
+
+        <!-- PRESENCIAL -->
+        <div id="presencial" class="hidden">
+          <h2>Curso Presencial</h2>
+
+          <select id="selectPresencial" onchange="mostrarPlanoPresencial()">
+            <option value="">Selecione o curso</option>
+            <option value="combo">MAX NATCDF (Combo Completo)</option>
+            <option value="combo2">NATCDF Combo 2 Matérias</option>
+            <option value="1mat">NATCDF 1 Matéria</option>
+          </select>
+
+          <!-- ESCOLHA DE MATÉRIAS -->
+          <div id="materiasBox" class="hidden">
+            <p style="margin-top: 10px;">
+              <strong>Selecione a(s) matéria(s):</strong>
+            </p>
+
+            <div class="materias">
+              <div class="materia quimica" data-materia="Química">
+                Química
+              </div>
+              <div class="materia fisica" data-materia="Física">
+                Física
+              </div>
+              <div class="materia biologia" data-materia="Biologia">
+                Biologia
+              </div>
+            </div>
+          </div>
+
+          <p style="margin-top: 10px; font-size: 14px; color: #555;">
+            💡 Ex-alunos ou estudantes de instituição pública podem solicitar
+            <strong>desconto especial</strong> diretamente com o professor.
+          </p>
+
+          <div id="planoPresencial" class="plano hidden"></div>
+        </div>
+
+        <button
+          onclick="irParaCadastro()"
+          style="margin-top: 15px; width: 100%;"
+        >
+          Continuar para cadastro
+        </button>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
