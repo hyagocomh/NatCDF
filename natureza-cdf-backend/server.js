@@ -41,20 +41,29 @@ const CUPONS = {
 app.post('/validar-cupom', (req, res) => {
   const { cupom, curso, valorOriginal } = req.body;
 
+  if (!cupom || !curso) {
+    return res.status(400).json({ erro: 'Dados inválidos.' });
+  }
+
   const codigo = cupom.toUpperCase().trim();
 
   if (!CUPONS[codigo]) {
     return res.status(400).json({ erro: 'Cupom inválido.' });
   }
 
-  if (CUPONS[codigo].curso !== curso) {
+  const cupomData = CUPONS[codigo];
+
+  // 🔥 CORREÇÃO DEFINITIVA AQUI
+  const nomeCurso = curso.trim();
+
+  if (!nomeCurso.startsWith(cupomData.curso)) {
     return res.status(400).json({
-      erro: 'Este cupom não é válido para o curso selecionado.'
+      erro: 'Cupom não é válido para este curso.'
     });
   }
 
   return res.json({
-    valorComDesconto: CUPONS[codigo].valorFinal
+    valorComDesconto: cupomData.valorFinal
   });
 });
 
@@ -64,6 +73,10 @@ app.post('/validar-cupom', (req, res) => {
 app.post('/create_preference', async (req, res) => {
   try {
     const { curso, valor, aluno } = req.body;
+
+    if (!curso || !valor || !aluno) {
+      return res.status(400).json({ error: 'Dados incompletos.' });
+    }
 
     const result = await preference.create({
       body: {
