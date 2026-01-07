@@ -1,6 +1,7 @@
 /* =========================================================
    REFERÊNCIAS DO DOM
 ========================================================= */
+const avisoCupomPresencial = document.getElementById('avisoCupomPresencial');
 const onlineDiv = document.getElementById('online');
 const presencialDiv = document.getElementById('presencial');
 
@@ -18,6 +19,7 @@ const materiasEls = document.querySelectorAll('.materia');
 ========================================================= */
 const VALOR_ONLINE = 799.90;
 let modalidadeSelecionada = null;
+
 const valoresPresencial = {
   "MAX NATCDF (Combo Completo)": 450,
   "NATCDF Combo 2 Matérias": 320,
@@ -35,6 +37,9 @@ function mostrarOnline() {
 
   onlineDiv.classList.remove('hidden');
   presencialDiv.classList.add('hidden');
+
+  // 🔴 ESCONDE AVISO DE CUPOM
+  avisoCupomPresencial.classList.add('hidden');
 
   // Limpa presencial
   selectPresencial.value = '';
@@ -59,7 +64,6 @@ function mostrarOnline() {
   );
 }
 
-
 /* =========================================================
    PRESENCIAL
 ========================================================= */
@@ -71,7 +75,10 @@ function mostrarPresencial() {
   onlineDiv.classList.add('hidden');
   planoOnlineDiv.classList.add('hidden');
 
-  // LIMPA QUALQUER CURSO ANTERIOR
+  // 🟢 MOSTRA AVISO DE CUPOM
+  avisoCupomPresencial.classList.remove('hidden');
+
+  // Limpa seleção anterior
   selectPresencial.value = '';
   planoPresencialDiv.classList.add('hidden');
   materiasBox.classList.add('hidden');
@@ -79,7 +86,6 @@ function mostrarPresencial() {
 
   localStorage.removeItem('cursoSelecionado');
 }
-
 
 /* =========================================================
    PLANO PRESENCIAL
@@ -212,4 +218,3 @@ function irParaCadastro() {
   // 4️⃣ OK → Cadastro
   window.location.href = 'cadastro.html';
 }
-

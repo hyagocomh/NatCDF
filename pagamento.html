@@ -44,55 +44,9 @@
 
     </div>
   </div>
+  
+<script src="pagamento.js"></script>
 
-  <script>
-    // 1️⃣ Recupera dados salvos
-    const curso = localStorage.getItem('cursoSelecionado');
-    const cadastro = JSON.parse(localStorage.getItem('dadosCadastro'));
-
-    // 2️⃣ Valida fluxo
-    if (!curso || !cadastro) {
-      alert('Fluxo incompleto. Refaça a inscrição.');
-      window.location.href = 'index.html';
-    }
-
-    // 3️⃣ Mostra resumo do pedido
-    document.getElementById('resumoPedido').innerHTML = `
-      <h3>Resumo do pedido</h3>
-      <p><strong>Curso:</strong> ${curso}</p>
-      <p><strong>Aluno:</strong> ${cadastro.nome}</p>
-      <p><strong>E-mail:</strong> ${cadastro.email}</p>
-    `;
-
-    // 4️⃣ Clique no botão de pagamento
-    document.getElementById('btnPagar').addEventListener('click', async () => {
-      try {
-        // Desativa botão para evitar duplo clique
-        const btn = document.getElementById('btnPagar');
-        btn.disabled = true;
-        btn.innerText = 'Redirecionando...';
-
-        // Chamada para o backend (Mercado Pago)
-        const response = await fetch('http://localhost:3000/create_preference', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            curso: curso,
-            aluno: cadastro
-          })
-        });
-
-        const data = await response.json();
-
-        // Redireciona para o checkout do Mercado Pago
-        window.location.href = data.init_point;
-
-      } catch (error) {
-        alert('Erro ao iniciar pagamento.');
-        console.error(error);
-      }
-    });
-  </script>
 
 </body>
 </html>
