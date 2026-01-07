@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Pagamento – NATUREZA CDF</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="page">
+    <div class="card">
+
+      <!-- BARRA DE PROGRESSO -->
+      <div class="progress">
+        <div class="step done">
+          <span>1</span>
+          <p>Curso</p>
+        </div>
+
+        <div class="line"></div>
+
+        <div class="step done">
+          <span>2</span>
+          <p>Cadastro</p>
+        </div>
+
+        <div class="line"></div>
+
+        <div class="step active">
+          <span>3</span>
+          <p>Pagamento</p>
+        </div>
+      </div>
+
+      <h1>Pagamento</h1>
+
+      <!-- RESUMO DO PEDIDO -->
+      <div id="resumoPedido" class="plano"></div>
+
+      <!-- BOTÃO PAGAMENTO -->
+      <button id="btnPagar">
+        Pagar com Mercado Pago
+      </button>
+
+    </div>
+  </div>
+
+  <script>
+    // 1️⃣ Recupera dados salvos
+    const curso = localStorage.getItem('cursoSelecionado');
+    const cadastro = JSON.parse(localStorage.getItem('dadosCadastro'));
+
+    // 2️⃣ Valida fluxo
+    if (!curso || !cadastro) {
+      alert('Fluxo incompleto. Refaça a inscrição.');
+      window.location.href = 'index.html';
+    }
+
+    // 3️⃣ Mostra resumo do pedido
+    document.getElementById('resumoPedido').innerHTML = `
+      <h3>Resumo do pedido</h3>
+      <p><strong>Curso:</strong> ${curso}</p>
+      <p><strong>Aluno:</strong> ${cadastro.nome}</p>
+      <p><strong>E-mail:</strong> ${cadastro.email}</p>
+    `;
+
+    // 4️⃣ Clique no botão de pagamento
+    document.getElementById('btnPagar').addEventListener('click', async () => {
+      try {
+        // Desativa botão para evitar duplo clique
+        const btn = document.getElementById('btnPagar');
+        btn.disabled = true;
+        btn.innerText = 'Redirecionando...';
+
+        // Chamada para o backend (Mercado Pago)
+        const response = await fetch('http://localhost:3000/create_preference', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            curso: curso,
+            aluno: cadastro
+          })
+        });
+
+        const data = await response.json();
+
+        // Redireciona para o checkout do Mercado Pago
+        window.location.href = data.init_point;
+
+      } catch (error) {
+        alert('Erro ao iniciar pagamento.');
+        console.error(error);
+      }
+    });
+  </script>
+
+</body>
+</html>

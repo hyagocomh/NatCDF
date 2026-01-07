@@ -1,44 +1,187 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Cadastro</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <title>Cadastro – NATUREZA CDF</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
 
-  <body>
-    <div class="page">
-      <div class="card">
-        <h1>Cadastro</h1>
+<body>
+  <div class="page">
+    <div class="card">
 
-        <!-- RESUMO DO CURSO -->
-        <div id="resumoCurso" class="plano"></div>
+      <!-- BARRA DE PROGRESSO -->
+      <div class="progress">
+        <div class="step done">
+          <span>1</span>
+          <p>Curso</p>
+        </div>
 
-        <!-- FORMULÁRIO -->
-        <input type="text" placeholder="Nome completo" />
-        <input type="text" placeholder="CPF" />
-        <input type="email" placeholder="E-mail" />
-        <input type="password" placeholder="Senha" />
-        <input type="password" placeholder="Confirmar senha" />
+        <div class="line"></div>
 
-        <button style="margin-top: 15px; width: 100%;">
-          Ir para pagamento
-        </button>
+        <div class="step active">
+          <span>2</span>
+          <p>Cadastro</p>
+        </div>
+
+        <div class="line"></div>
+
+        <div class="step">
+          <span>3</span>
+          <p>Pagamento</p>
+        </div>
       </div>
+
+      <h1>Cadastro</h1>
+
+      <!-- RESUMO -->
+      <div id="resumoCurso" class="plano"></div>
+
+      <!-- NOME -->
+      <input id="nome" type="text" placeholder="Nome completo" />
+      <small class="error-message" id="erroNome"></small>
+
+      <!-- CPF -->
+      <input id="cpf" type="text" placeholder="CPF (somente números)" maxlength="11" />
+      <small class="error-message" id="erroCpf"></small>
+
+      <!-- EMAIL -->
+      <input id="email" type="email" placeholder="E-mail" />
+      <small class="error-message" id="erroEmail"></small>
+
+      <!-- SENHA -->
+      <input id="senha" type="password" placeholder="Senha (mín. 8 caracteres)" />
+      <small class="error-message" id="erroSenha"></small>
+
+      <!-- CONFIRMAR -->
+      <input id="confirmar" type="password" placeholder="Confirmar senha" />
+      <small class="error-message" id="erroConfirmar"></small>
+
+      <button id="btnIrPagamento">Ir para pagamento</button>
+
     </div>
+  </div>
 
-    <script>
-      const curso = localStorage.getItem('cursoSelecionado');
+  <script>
+    // ==============================
+    // CURSO
+    // ==============================
+    const curso = localStorage.getItem('cursoSelecionado');
+    if (!curso) window.location.href = 'index.html';
 
-      if (!curso) {
-        alert('Nenhum curso selecionado.');
-        window.location.href = 'index.html';
-      } else {
-        document.getElementById('resumoCurso').innerHTML = `
-          <h3>Curso selecionado</h3>
-          <p>${curso}</p>
-        `;
+    document.getElementById('resumoCurso').innerHTML = `
+      <h3>Curso selecionado</h3>
+      <p>${curso}</p>
+    `;
+
+    // ==============================
+    // FUNÇÕES AUXILIARES
+    // ==============================
+    function mostrarErro(input, mensagem, erroId) {
+      input.classList.add('field-error');
+      const erro = document.getElementById(erroId);
+      erro.innerText = mensagem;
+      erro.style.display = 'block';
+    }
+
+    function limparErro(input, erroId) {
+      input.classList.remove('field-error');
+      const erro = document.getElementById(erroId);
+      erro.innerText = '';
+      erro.style.display = 'none';
+    }
+
+    function cpfValido(cpf) {
+      if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
+      let soma = 0, resto;
+
+      for (let i = 1; i <= 9; i++) {
+        soma += parseInt(cpf[i - 1]) * (11 - i);
       }
-    </script>
-  </body>
+      resto = (soma * 10) % 11;
+      if (resto !== parseInt(cpf[9])) return false;
+
+      soma = 0;
+      for (let i = 1; i <= 10; i++) {
+        soma += parseInt(cpf[i - 1]) * (12 - i);
+      }
+      resto = (soma * 10) % 11;
+      return resto === parseInt(cpf[10]);
+    }
+
+    function senhaValida(senha) {
+      return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(senha);
+    }
+
+    // ==============================
+    // INPUT CPF → SÓ NÚMEROS
+    // ==============================
+    cpf.addEventListener('input', () => {
+      cpf.value = cpf.value.replace(/\D/g, '');
+      limparErro(cpf, 'erroCpf');
+    });
+
+    // ==============================
+    // BOTÃO
+    // ==============================
+    document.getElementById('btnIrPagamento').addEventListener('click', () => {
+      let valido = true;
+
+      // LIMPA ERROS
+      ['nome','cpf','email','senha','confirmar'].forEach(id => {
+        limparErro(document.getElementById(id), 'erro' + id.charAt(0).toUpperCase() + id.slice(1));
+      });
+
+      const nome = nomeInput = document.getElementById('nome');
+      const cpfInput = document.getElementById('cpf');
+      const emailInput = document.getElementById('email');
+      const senhaInput = document.getElementById('senha');
+      const confirmarInput = document.getElementById('confirmar');
+
+      if (!nomeInput.value.trim()) {
+        mostrarErro(nomeInput, 'Informe seu nome completo.', 'erroNome');
+        valido = false;
+      }
+
+      if (!/^\d{11}$/.test(cpfInput.value) || !cpfValido(cpfInput.value)) {
+        mostrarErro(cpfInput, 'CPF inválido.', 'erroCpf');
+        valido = false;
+      }
+
+      if (!emailInput.value.trim()) {
+        mostrarErro(emailInput, 'Informe um e-mail válido.', 'erroEmail');
+        valido = false;
+      }
+
+      if (!senhaValida(senhaInput.value)) {
+        mostrarErro(
+          senhaInput,
+          'A senha deve ter no mínimo 8 caracteres, com letras e números.',
+          'erroSenha'
+        );
+        valido = false;
+      }
+
+      if (senhaInput.value !== confirmarInput.value) {
+        mostrarErro(confirmarInput, 'As senhas não conferem.', 'erroConfirmar');
+        valido = false;
+      }
+
+      if (!valido) return;
+
+      // SALVA DADOS
+      localStorage.setItem(
+        'dadosCadastro',
+        JSON.stringify({
+          nome: nomeInput.value.trim(),
+          cpf: cpfInput.value,
+          email: emailInput.value.trim()
+        })
+      );
+
+      window.location.href = 'pagamento.html';
+    });
+  </script>
+
+</body>
 </html>

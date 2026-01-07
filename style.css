@@ -74,6 +74,19 @@ h3 {
   color: #2e7d32;
 }
 
+/* AVISO CUPOM*/
+.aviso-cupom {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #f1f8f4;
+  color: #2e7d32;
+  font-size: 14px;
+  line-height: 1.4;
+  border-left: 4px solid #2e7d32;
+}
+
+
 /* INPUTS E SELECT */
 input,
 select {
@@ -112,10 +125,16 @@ button {
   font-weight: 600;
   background: linear-gradient(135deg, #2e7d32, #1b5e20);
   color: #ffffff;
+    transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.2s ease;
 }
 
 button:hover {
   box-shadow: 0 8px 18px rgba(46, 125, 50, 0.3);
+  transform: translateY(-2px);
 }
 
 /* MATÉRIAS */
@@ -135,6 +154,15 @@ button:hover {
   background: #f1f1f1;
   color: #333;
   border: 2px solid transparent;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.2s ease;
+}
+
+.materia:hover {
+  transform: translateY(-2px);
 }
 
 /* CORES DAS MATÉRIAS */
@@ -160,6 +188,90 @@ button:hover {
 .hidden {
   display: none;
 }
+
+/* ===========================
+   BARRA DE PROGRESSO
+   =========================== */
+.progress {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 13px;
+  color: #999;
+  min-width: 70px;
+}
+
+.step span {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  background: #fff;
+  margin-bottom: 6px;
+}
+
+.step p {
+  margin: 0;
+  
+}
+
+/* LINHA ENTRE OS PASSOS */
+.line {
+  flex: 1;
+  height: 2px;
+  background: #ccc;
+}
+
+/* PASSO ATIVO */
+.step.active span {
+  border-color: #299b0d;
+  background: #299b0d;
+  color: #fff;
+}
+
+.step.active p {
+  color: #299b0d;
+}
+
+/* PASSOS CONCLUÍDOS */
+.step.done span {
+  border-color: #299b0d;
+  background: #dcffe7;
+  color: #299b0d;
+}
+
+.step.done p {
+  color: #299b0d;
+}
+
+
+/* ===========================
+   FEEDBACK DE ERRO (FORM)
+   =========================== */
+.field-error {
+  border-color: #e53935 !important;
+  background: #fff5f5;
+}
+
+.error-message {
+  color: #e53935;
+  font-size: 13px;
+  margin-top: 4px;
+  display: none;
+}
+
+
 
 /* =====================================
    MOBILE – LAYOUT ABERTO (SEM CARD)
@@ -264,6 +376,25 @@ button:hover {
     font-size: 22px;
     border-radius: 18px;
     margin-top: 32px;
+    
   }
+
+  
+
+  /* BARRA DE PROGRESSO MAIOR */
+  .progress {
+  margin-bottom: 40px;
+}
+
+.step p {
+  font-size: 14px;
+}
+
+.step span {
+  width: 44px;
+  height: 44px;
+  font-size: 16px;
+}
+
 
 }
