@@ -1,12 +1,16 @@
 /* ==============================
-   CURSO SELECIONADO
+   BLOQUEIO DE ACESSO DIRETO
 ============================== */
 const curso = JSON.parse(localStorage.getItem('cursoSelecionado'));
 
 if (!curso) {
-  window.location.href = 'index.html';
+  window.location.replace('acesso-negado.html');
+  throw new Error('Acesso inválido: curso não selecionado');
 }
 
+/* ==============================
+   RESUMO DO CURSO
+============================== */
 document.getElementById('resumoCurso').innerHTML = `
   <h3>Curso selecionado</h3>
   <p><strong>${curso.nome}</strong></p>
@@ -112,7 +116,9 @@ document.getElementById('btnIrPagamento').addEventListener('click', () => {
 
   if (!valido) return;
 
-  // Salva cadastro
+  /* ==============================
+     SALVA DADOS DO CADASTRO
+  ============================== */
   localStorage.setItem(
     'dadosCadastro',
     JSON.stringify({

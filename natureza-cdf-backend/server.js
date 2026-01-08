@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const { MercadoPagoConfig, Preference } = require('mercadopago');
@@ -12,7 +13,7 @@ app.use(express.json());
    MERCADO PAGO
 ================================ */
 const client = new MercadoPagoConfig({
-  accessToken: 'APP_USR-3775593871707696-010609-0d4b967aa175b53dceffceafd816721c-3114469016'
+  accessToken: process.env.MP_ACCESS_TOKEN
 });
 
 const preference = new Preference(client);
