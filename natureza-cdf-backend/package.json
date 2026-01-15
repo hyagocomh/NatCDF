@@ -1,19 +1,11 @@
 {
   "name": "natureza-cdf-backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
+  "description": "Backend NATUREZA CDF - Mercado Pago + Webhook + Email",
+  "type": "module",
+  "private": true,
   "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^17.2.3",
-    "express": "^5.2.1",
-    "mercadopago": "^2.11.0"
+    "mercadopago": "^2.11.0",
+    "nodemailer": "^6.9.8"
   }
 }

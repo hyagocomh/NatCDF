@@ -1,3 +1,23 @@
+localStorage.setItem(
+  'flowToken',
+  JSON.stringify({
+    value: crypto.randomUUID(),
+    expires: Date.now() + 10 * 60 * 1000
+  })
+);
+
+function fluxoValido() {
+  const token = JSON.parse(localStorage.getItem('flowToken'));
+
+  if (!token) return false;
+  if (Date.now() > token.expires) {
+    localStorage.removeItem('flowToken');
+    return false;
+  }
+  return true;
+}
+
+
 /* =========================================================
    REFERÊNCIAS DO DOM
 ========================================================= */
