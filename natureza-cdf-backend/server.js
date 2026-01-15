@@ -2,7 +2,6 @@ require('dotenv').config();
 
 const express = require('express');
 const cors = require('cors');
-const fetch = require('node-fetch');
 const nodemailer = require('nodemailer');
 const { MercadoPagoConfig, Preference } = require('mercadopago');
 
