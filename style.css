@@ -1,18 +1,33 @@
 /* RESET */
+:root {
+  --bg: #f5f7f6;
+  --card-bg: #ffffff;
+  --accent: #0c40eb;
+  --accent-2: #1b275e;
+  --muted: #666;
+  --danger: #e53935;
+  --glass: rgba(255,255,255,0.6);
+  --shadow: 0 10px 30px rgba(16,24,40,0.08);
+  --radius: 14px;
+}
+
 * {
   box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+  font-family: 'Inter', 'Segoe UI', Tahoma, Arial, sans-serif;
 }
 
 body {
   margin: 0;
-  background: #f5f7f6;
+  background: linear-gradient(180deg, #f3faf1 0%, var(--bg) 100%);
   min-height: 100vh;
-  color: #2f2f2f;
-}
+  color: #1f2933;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+} 
 
 /* CENTRALIZA */
 .page {
+  background-color: white;
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -22,20 +37,33 @@ body {
 
 /* CARD */
 .card {
-  background: #ffffff;
+  background: var(--card-bg);
   width: 100%;
-  max-width: 460px;
-  padding: 30px 26px;
-  border-radius: 16px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  max-width: 720px;
+  padding: 34px 32px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
 }
+
+/* BANNER + CARD */
+.card-banner {
+  background: transparent;
+  width: 100%;
+  max-width: 720px;
+  padding: 20px;
+  border-radius: calc(var(--radius) + 6px);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+} 
 
 /* TÍTULOS */
 h1 {
   text-align: center;
   font-size: 24px;
   margin-bottom: 18px;
-  color: #2e7d32;
+  color: #0c40eb;
 }
 
 h2 {
@@ -70,8 +98,8 @@ h3 {
 }
 
 .buttons button:hover {
-  border-color: #2e7d32;
-  color: #2e7d32;
+  border-color: #0c40eb;
+  color: #0c40eb;
 }
 
 /* AVISO CUPOM*/
@@ -80,10 +108,10 @@ h3 {
   padding: 12px 14px;
   border-radius: 10px;
   background: #f1f8f4;
-  color: #2e7d32;
+  color: #0c40eb;
   font-size: 14px;
   line-height: 1.4;
-  border-left: 4px solid #2e7d32;
+  border-left: 4px solid #0c40eb;
 }
 
 
@@ -93,24 +121,53 @@ select {
   width: 100%;
   padding: 14px;
   border-radius: 12px;
-  border: 1px solid #dcdcdc;
+  border: 1px solid #e6e6e6;
   font-size: 15px;
-  margin-top: 10px;
+  margin-top: 12px;
+  background: #fff;
+  transition: box-shadow 0.15s ease, border-color 0.15s ease;
 }
 
 input:focus,
 select:focus {
   outline: none;
-  border-color: #2e7d32;
+  border-color: var(--accent);
+  box-shadow: 0 6px 18px rgba(46, 74, 125, 0.06);
+}
+#avisoCupomPresencial{
+  background-color: rgba(36, 27, 167, 0.055);
+}
+/* PLANO */
+
+/* BOTÃO PRINCIPAL */
+button {
+  width: 100%;
+  padding: 14px 18px;
+  margin-top: 20px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  color: #ffffff;
+  box-shadow: 0 6px 18px rgba(46, 58, 125, 0.18);
+  transition:
+    background 0.25s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
-/* PLANO */
+button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgba(16,24,40,0.12);
+} 
 .plano {
   margin-top: 18px;
   padding: 16px;
   border-radius: 12px;
   background: #f9faf9;
-  border-left: 5px solid #2e7d32;
+  border-left: 5px solid #0c40eb;
 }
 
 /* BOTÃO PRINCIPAL */
@@ -123,7 +180,7 @@ button {
   cursor: pointer;
   font-size: 16px;
   font-weight: 600;
-  background: linear-gradient(135deg, #2e7d32, #1b5e20);
+  background: linear-gradient(135deg, #0c40eb, #1b275e);
   color: #ffffff;
     transition:
     background 0.3s ease,
@@ -133,7 +190,7 @@ button {
 }
 
 button:hover {
-  box-shadow: 0 8px 18px rgba(46, 125, 50, 0.3);
+  box-shadow: 0 8px 18px rgba(12, 64, 235, 0.3);
   transform: translateY(-2px);
 }
 
@@ -235,24 +292,24 @@ button:hover {
 
 /* PASSO ATIVO */
 .step.active span {
-  border-color: #299b0d;
-  background: #299b0d;
+  border-color: #0d1b9b;
+  background: #0d1b9b;
   color: #fff;
 }
 
 .step.active p {
-  color: #299b0d;
+  color: #0d1b9b;
 }
 
 /* PASSOS CONCLUÍDOS */
 .step.done span {
-  border-color: #299b0d;
-  background: #dcffe7;
-  color: #299b0d;
+  border-color: #0d1b9b;
+  background: #e3f0ff;
+  color: #0d1b9b;
 }
 
 .step.done p {
-  color: #299b0d;
+  color: #0d1b9b;
 }
 
 
@@ -396,5 +453,44 @@ button:hover {
   font-size: 16px;
 }
 
+}
 
+/* ===========================
+   BANNER SUPERIOR (LOGO)
+   =========================== */
+.banner {
+  width: 100%;
+  max-width: 460px;          /* exatamente a largura do card */
+  margin: 0 auto 16px auto;  /* centraliza e dá espaço */
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+}
+
+/* AQUI ESTÁ A CHAVE */
+.banner img {
+  max-width: 100%;           /* nunca ultrapassa o card */
+  height: 72px;              /* altura controlada */
+  width: auto;               /* evita esticar */
+  object-fit: contain;       /* 🔥 NÃO CORTA O LOGO */
+  object-position: center;
+  display: block;
+}
+
+/* fallback box for small projects */
+.card-banner {
+  /* visual handled above; small fallback to keep backward compatibility */
+  border-radius: 12px;
+}
+
+/* ACCESSIBILITY: visually hidden */
+.sr-only {
+  position: absolute !important;
+  height: 1px; width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+  border: 0;
+  padding: 0;
+  margin: -1px;
 }

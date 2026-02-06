@@ -3,21 +3,26 @@
 ============================== */
 function fluxoValido() {
   const token = JSON.parse(localStorage.getItem('flowToken'));
+
   if (!token) return false;
+
   if (Date.now() > token.expires) {
     localStorage.removeItem('flowToken');
     return false;
   }
+
   return true;
 }
 
+/* ==============================
+   BLOQUEIO DE ACESSO DIRETO
+============================== */
 const curso = JSON.parse(localStorage.getItem('cursoSelecionado'));
 
 if (!curso || !fluxoValido()) {
   window.location.replace('acesso-negado.html');
   throw new Error('Acesso inválido');
 }
-
 
 /* ==============================
    MOSTRA RESUMO DO CURSO
@@ -51,70 +56,122 @@ function limparErro(input, erroId) {
 }
 
 function cpfValido(cpf) {
-  if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
+  if (!cpf) return false;
+
+  // Remove qualquer coisa que não seja número
+  cpf = cpf.replace(/\D/g, '');
+
+  // Deve ter 11 dígitos
+  if (cpf.length !== 11) return false;
+
+  // Elimina CPFs inválidos conhecidos (todos iguais)
+  if (/^(\d)\1+$/.test(cpf)) return false;
 
   let soma = 0;
-  for (let i = 1; i <= 9; i++) soma += parseInt(cpf[i - 1]) * (11 - i);
-  let resto = (soma * 10) % 11;
-  if (resto !== parseInt(cpf[9])) return false;
+  let resto;
 
-  soma = 0;
-  for (let i = 1; i <= 10; i++) soma += parseInt(cpf[i - 1]) * (12 - i);
+  // Primeiro dígito verificador
+  for (let i = 1; i <= 9; i++) {
+    soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);
+  }
+
   resto = (soma * 10) % 11;
-  return resto === parseInt(cpf[10]);
+  if (resto === 10 || resto === 11) resto = 0;
+
+  if (resto !== parseInt(cpf.substring(9, 10))) return false;
+
+  // Segundo dígito verificador
+  soma = 0;
+  for (let i = 1; i <= 10; i++) {
+    soma += parseInt(cpf.substring(i - 1, i)) * (12 - i);
+  }
+
+  resto = (soma * 10) % 11;
+  if (resto === 10 || resto === 11) resto = 0;
+
+  return resto === parseInt(cpf.substring(10, 11));
 }
 
 /* ==============================
-   INPUT CPF → SOMENTE NÚMEROS
+   INPUT CPF E TELEFONE → SOMENTE NÚMEROS
 ============================== */
 const cpfInput = document.getElementById('cpf');
+const telefoneInput = document.getElementById('telefone');
 
-cpfInput.addEventListener('input', () => {
-  cpfInput.value = cpfInput.value.replace(/\D/g, '');
-  limparErro(cpfInput, 'erroCpf');
-});
+if (cpfInput) {
+  cpfInput.addEventListener('input', () => {
+    cpfInput.value = cpfInput.value.replace(/\D/g, '');
+    limparErro(cpfInput, 'erroCpf');
+  });
+}
+
+if (telefoneInput) {
+  telefoneInput.addEventListener('input', () => {
+    telefoneInput.value = telefoneInput.value.replace(/\D/g, '');
+    limparErro(telefoneInput, 'erroTelefone');
+  });
+} 
 
 /* ==============================
-   BOTÃO IR PARA PAGAMENTO
+   ENVIO DO FORMULÁRIO → IR PARA PAGAMENTO
 ============================== */
-document.getElementById('btnIrPagamento').addEventListener('click', () => {
-  let valido = true;
+const form = document.getElementById('formCadastro');
 
-  const nomeInput = document.getElementById('nome');
-  const emailInput = document.getElementById('email');
+if (form) {
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    let valido = true;
 
-  limparErro(nomeInput, 'erroNome');
-  limparErro(cpfInput, 'erroCpf');
-  limparErro(emailInput, 'erroEmail');
+    const nomeInput = document.getElementById('nome');
+    const emailInput = document.getElementById('email');
+    const telefoneInput = document.getElementById('telefone');
 
-  const nome = nomeInput.value.trim();
-  const cpf = cpfInput.value.trim();
-  const email = emailInput.value.trim().toLowerCase();
+    limparErro(nomeInput, 'erroNome');
+    limparErro(cpfInput, 'erroCpf');
+    limparErro(emailInput, 'erroEmail');
+    limparErro(telefoneInput, 'erroTelefone');
 
-  if (!nome) {
-    mostrarErro(nomeInput, 'Informe seu nome completo.', 'erroNome');
-    valido = false;
-  }
+    const nome = nomeInput.value.trim();
+    const cpf = cpfInput.value.trim();
+    const email = emailInput.value.trim().toLowerCase();
+    const telefone = telefoneInput ? telefoneInput.value.trim() : '';
 
-  if (!/^\d{11}$/.test(cpf) || !cpfValido(cpf)) {
-    mostrarErro(cpfInput, 'CPF inválido.', 'erroCpf');
-    valido = false;
-  }
+    if (!nome) {
+      mostrarErro(nomeInput, 'Informe seu nome completo.', 'erroNome');
+      valido = false;
+    }
 
-  if (!email || !email.includes('@')) {
-    mostrarErro(emailInput, 'Informe um e-mail válido.', 'erroEmail');
-    valido = false;
-  }
+    if (!/^\d{11}$/.test(cpf) || !cpfValido(cpf)) {
+      mostrarErro(cpfInput, 'CPF inválido.', 'erroCpf');
+      valido = false;
+    }
 
-  if (!valido) return;
+    if (!email || !email.includes('@')) {
+      mostrarErro(emailInput, 'Informe um e-mail válido.', 'erroEmail');
+      valido = false;
+    }
 
-  /* ==============================
-     SALVA DADOS DO CADASTRO
-  ============================== */
-  localStorage.setItem(
-    'dadosCadastro',
-    JSON.stringify({ nome, cpf, email })
-  );
+    // Telefone: aceita 10 (fixo) ou 11 (celular) dígitos
+    if (telefoneInput && !/^\d{10,11}$/.test(telefone)) {
+      mostrarErro(telefoneInput, 'Telefone inválido (ex: 11999998888).', 'erroTelefone');
+      valido = false;
+    }
 
-  window.location.href = 'pagamento.html';
-});
+    if (!valido) {
+      // foca no primeiro campo com erro visível
+      const firstError = document.querySelector('.field-error');
+      if (firstError) firstError.focus();
+      return;
+    }
+
+    /* ==============================
+       SALVA DADOS DO CADASTRO
+    ============================== */
+    localStorage.setItem(
+      'dadosCadastro',
+      JSON.stringify({ nome, cpf, email, telefone })
+    );
+
+    window.location.href = 'pagamento.html';
+  });
+} 

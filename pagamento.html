@@ -2,29 +2,41 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Pagamento – NATUREZA CDF</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=1.0.1">
 </head>
 
 <body>
+  
+
   <div class="page">
+  
+
+
     <div class="card">
 
-      <!-- BARRA DE PROGRESSO -->
       <div class="progress">
-        <div class="step done"><span>1</span><p>Curso</p></div>
+        <div class="step done">
+          <span>1</span>
+          <p>Curso</p>
+        </div>
         <div class="line"></div>
-        <div class="step done"><span>2</span><p>Cadastro</p></div>
+        <div class="step done">
+          <span>2</span>
+          <p>Cadastro</p>
+        </div>
         <div class="line"></div>
-        <div class="step active"><span>3</span><p>Pagamento</p></div>
+        <div class="step active">
+          <span>3</span>
+          <p>Pagamento</p>
+        </div>
       </div>
 
       <h1>Pagamento</h1>
 
-      <!-- RESUMO -->
       <div id="resumoPedido" class="plano"></div>
 
-      <!-- CUPOM -->
       <div class="plano" style="margin-top:20px;">
         <h3>Possui cupom?</h3>
         <input type="text" id="cupom" placeholder="Digite o cupom" style="text-transform: uppercase;">
@@ -32,13 +44,11 @@
         <small id="feedbackCupom" style="display:none;"></small>
       </div>
 
-<!-- BOTÕES -->
       <button id="btnPagar">Pagar agora</button>
-
 
     </div>
   </div>
 
-  <script src="pagamento.js"></script>
+  <script src="pagamento.js?v=1.0.1"></script>
 </body>
 </html>

@@ -2,12 +2,14 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Inscrição – NATUREZA CDF</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Metodo de Pagamento</title>
+  <link rel="stylesheet" href="style.css?v=1.0.1">
 </head>
 
 <body>
   <div class="page">
+
     <div class="card">
 
       <!-- BARRA DE PROGRESSO -->
@@ -28,7 +30,7 @@
         </div>
       </div>
 
-      <h1>Inscrição – NATUREZA CDF</h1>
+      <h1>Inscrição – Cursinho</h1>
 
       <h2>Escolha a modalidade</h2>
 
@@ -37,21 +39,19 @@
         <button onclick="mostrarPresencial()">Presencial</button>
       </div>
 
-      <!-- ONLINE -->
       <div id="online" class="hidden">
         <h2>Curso Online</h2>
         <div id="planoOnline" class="plano hidden"></div>
       </div>
 
-      <!-- PRESENCIAL -->
       <div id="presencial" class="hidden">
         <h2>Curso Presencial</h2>
 
         <select id="selectPresencial" onchange="mostrarPlanoPresencial()">
           <option value="">Selecione o curso</option>
-          <option value="MAX NATCDF (Combo Completo)">MAX NATCDF (Combo Completo)</option>
-          <option value="NATCDF Combo 2 Matérias">NATCDF Combo 2 Matérias</option>
-          <option value="NATCDF 1 Matéria">NATCDF 1 Matéria</option>
+          <option value="Combo Completo">3 Matérias</option>
+          <option value="Combo 2 Matérias">2 Matérias</option>
+          <option value="1 Matéria">1 Matéria</option>
         </select>
 
         <div id="materiasBox" class="hidden">
@@ -66,21 +66,18 @@
         <div id="planoPresencial" class="plano hidden"></div>
       </div>
 
+      <small class="error-message" id="erroCurso"></small>
 
-<!-- FEEDBACK -->
-<small class="error-message" id="erroCurso"></small>
+      <p id="avisoCupomPresencial" class="aviso-cupom hidden">
+        💡 Consulte o professor para <strong>cupom de desconto</strong>.
+      </p>
 
-    <p id="avisoCupomPresencial" class="aviso-cupom hidden">
-      💡 <strong>Ex-alunos</strong> ou estudantes de <strong>instituição pública</strong>
-      podem solicitar um <strong>cupom de desconto</strong> diretamente com a recepção.
-    </p>
-
-    <button onclick="irParaCadastro()">Continuar para cadastro</button>
-
+      <button onclick="irParaCadastro()">Continuar para cadastro</button>
 
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script src="script.js?v=1.0.1"></script>
 </body>
 </html>
+

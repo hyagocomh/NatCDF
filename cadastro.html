@@ -2,30 +2,29 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Cadastro – NATUREZA CDF</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cadastro – CURSINHO </title>
+  <link rel="stylesheet" href="style.css?v=1.0.1">
 </head>
 
 <body>
   <div class="page">
+
+
+
     <div class="card">
 
-      <!-- BARRA DE PROGRESSO -->
       <div class="progress">
         <div class="step done">
           <span>1</span>
           <p>Curso</p>
         </div>
-
         <div class="line"></div>
-
         <div class="step active">
           <span>2</span>
           <p>Cadastro</p>
         </div>
-
         <div class="line"></div>
-
         <div class="step">
           <span>3</span>
           <p>Pagamento</p>
@@ -34,34 +33,30 @@
 
       <h1>Cadastro</h1>
 
-      <!-- RESUMO -->
       <div id="resumoCurso" class="plano"></div>
 
-      <!-- NOME -->
-      <input id="nome" type="text" placeholder="Nome completo" />
-      <small class="error-message" id="erroNome"></small>
+  <form id="formCadastro" novalidate>
+    <label class="sr-only" for="nome">Nome completo</label>
+    <input id="nome" name="nome" type="text" placeholder="Nome completo" autocomplete="name" />
+    <small class="error-message" id="erroNome"></small>
 
-      <!-- CPF -->
-      <input id="cpf" type="text" placeholder="CPF (somente números)" maxlength="11" />
-      <small class="error-message" id="erroCpf"></small>
+    <label class="sr-only" for="cpf">CPF</label>
+    <input id="cpf" name="cpf" type="text" inputmode="numeric" placeholder="CPF (somente números)" maxlength="11" />
+    <small class="error-message" id="erroCpf"></small>
 
-      <!-- EMAIL -->
-      <input id="email" type="email" placeholder="E-mail" />
-      <small class="error-message" id="erroEmail"></small>
+    <label class="sr-only" for="telefone">Telefone</label>
+    <input id="telefone" name="telefone" type="tel" inputmode="numeric" placeholder="Telefone (somente números)" maxlength="11" />
+    <small class="error-message" id="erroTelefone"></small>
 
-      <!-- SENHA -->
+    <label class="sr-only" for="email">E-mail</label>
+    <input id="email" name="email" type="email" placeholder="E-mail" autocomplete="email" />
+    <small class="error-message" id="erroEmail"></small>
 
-
-      <!-- CONFIRMAR -->
-
-
-      <button id="btnIrPagamento">Ir para pagamento</button>
-
-    </div>
+    <button id="btnIrPagamento" type="submit">Ir para pagamento</button>
+  </form>
   </div>
 
-<script src="cadastro.js"></script>
-
-
+  <script src="cadastro.js?v=1.0.1"></script>
 </body>
 </html>
+

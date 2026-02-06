@@ -1,22 +1,21 @@
+/* =========================================================
+   CRIA TOKEN DE FLUXO (SEGURANÇA)
+========================================================= */
+function gerarUUID() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    const r = Math.random() * 16 | 0;
+    const v = c === 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
+
 localStorage.setItem(
   'flowToken',
   JSON.stringify({
-    value: crypto.randomUUID(),
-    expires: Date.now() + 10 * 60 * 1000
+    value: gerarUUID(),
+    expires: Date.now() + 10 * 60 * 1000 // 10 minutos
   })
 );
-
-function fluxoValido() {
-  const token = JSON.parse(localStorage.getItem('flowToken'));
-
-  if (!token) return false;
-  if (Date.now() > token.expires) {
-    localStorage.removeItem('flowToken');
-    return false;
-  }
-  return true;
-}
-
 
 /* =========================================================
    REFERÊNCIAS DO DOM
@@ -41,9 +40,9 @@ const VALOR_ONLINE = 799.90;
 let modalidadeSelecionada = null;
 
 const valoresPresencial = {
-  "MAX NATCDF (Combo Completo)": 450,
-  "NATCDF Combo 2 Matérias": 320,
-  "NATCDF 1 Matéria": 180
+  "Combo Completo": 450,
+  "Combo 2 Matérias": 320,
+  "1 Matéria": 180
 };
 
 let materiasSelecionadas = [];
@@ -57,11 +56,8 @@ function mostrarOnline() {
 
   onlineDiv.classList.remove('hidden');
   presencialDiv.classList.add('hidden');
-
-  // 🔴 ESCONDE AVISO DE CUPOM
   avisoCupomPresencial.classList.add('hidden');
 
-  // Limpa presencial
   selectPresencial.value = '';
   planoPresencialDiv.classList.add('hidden');
   materiasBox.classList.add('hidden');
@@ -69,19 +65,16 @@ function mostrarOnline() {
 
   planoOnlineDiv.innerHTML = `
     <h3>Curso selecionado</h3>
-    <p><strong>NATUREZA CDF Online</strong></p>
+    <p><strong>Plataforma Online (ANUAL)</strong></p>
     <p>Valor: R$ ${VALOR_ONLINE.toFixed(2)}</p>
   `;
   planoOnlineDiv.classList.remove('hidden');
 
-  localStorage.setItem(
-    'cursoSelecionado',
-    JSON.stringify({
-      nome: 'NATUREZA CDF Online',
-      valor: VALOR_ONLINE,
-      modalidade: 'online'
-    })
-  );
+  localStorage.setItem('cursoSelecionado', JSON.stringify({
+    nome: 'Plataforma Online (ANUAL)',
+    valor: VALOR_ONLINE,
+    modalidade: 'online'
+  }));
 }
 
 /* =========================================================
@@ -94,11 +87,8 @@ function mostrarPresencial() {
   presencialDiv.classList.remove('hidden');
   onlineDiv.classList.add('hidden');
   planoOnlineDiv.classList.add('hidden');
-
-  // 🟢 MOSTRA AVISO DE CUPOM
   avisoCupomPresencial.classList.remove('hidden');
 
-  // Limpa seleção anterior
   selectPresencial.value = '';
   planoPresencialDiv.classList.add('hidden');
   materiasBox.classList.add('hidden');
@@ -117,16 +107,11 @@ function mostrarPlanoPresencial() {
   limparMaterias();
   materiasBox.classList.add('hidden');
 
-  if (!curso) {
-    planoPresencialDiv.classList.add('hidden');
-    return;
-  }
+  if (!curso) return planoPresencialDiv.classList.add('hidden');
 
   const valor = valoresPresencial[curso];
 
-  if (curso.includes('Matéria')) {
-    materiasBox.classList.remove('hidden');
-  }
+  if (curso.includes('Matéria')) materiasBox.classList.remove('hidden');
 
   planoPresencialDiv.innerHTML = `
     <h3>Curso selecionado</h3>
@@ -135,14 +120,11 @@ function mostrarPlanoPresencial() {
   `;
   planoPresencialDiv.classList.remove('hidden');
 
-  localStorage.setItem(
-    'cursoSelecionado',
-    JSON.stringify({
-      nome: curso,
-      valor: valor,
-      modalidade: 'presencial'
-    })
-  );
+  localStorage.setItem('cursoSelecionado', JSON.stringify({
+    nome: curso,
+    valor,
+    modalidade: 'presencial'
+  }));
 }
 
 /* =========================================================
@@ -151,11 +133,10 @@ function mostrarPlanoPresencial() {
 materiasEls.forEach(el => {
   el.addEventListener('click', () => {
     const curso = selectPresencial.value;
-    const materia = el.dataset.materia;
-
     if (!curso.includes('Matéria')) return;
 
     const limite = curso.includes('2 Matérias') ? 2 : 1;
+    const materia = el.dataset.materia;
 
     if (!el.classList.contains('selected') && materiasSelecionadas.length >= limite) {
       erroCurso.innerText = `Selecione exatamente ${limite} matéria(s).`;
@@ -165,28 +146,18 @@ materiasEls.forEach(el => {
 
     el.classList.toggle('selected');
 
-    if (materiasSelecionadas.includes(materia)) {
-      materiasSelecionadas = materiasSelecionadas.filter(m => m !== materia);
-    } else {
-      materiasSelecionadas.push(materia);
-    }
+    materiasSelecionadas.includes(materia)
+      ? materiasSelecionadas = materiasSelecionadas.filter(m => m !== materia)
+      : materiasSelecionadas.push(materia);
 
-    const valor = valoresPresencial[curso];
-
-    localStorage.setItem(
-      'cursoSelecionado',
-      JSON.stringify({
-        nome: `${curso} (${materiasSelecionadas.join(', ')})`,
-        valor: valor,
-        modalidade: 'presencial'
-      })
-    );
+    localStorage.setItem('cursoSelecionado', JSON.stringify({
+      nome: `${curso} (${materiasSelecionadas.join(', ')})`,
+      valor: valoresPresencial[curso],
+      modalidade: 'presencial'
+    }));
   });
 });
 
-/* =========================================================
-   AUXILIAR
-========================================================= */
 function limparMaterias() {
   materiasSelecionadas = [];
   materiasEls.forEach(m => m.classList.remove('selected'));
@@ -196,45 +167,17 @@ function limparMaterias() {
    CONTINUAR
 ========================================================= */
 function irParaCadastro() {
-
-  // 1️⃣ Modalidade obrigatória
   if (!modalidadeSelecionada) {
-    erroCurso.innerText = 'Selecione a modalidade (Online ou Presencial).';
+    erroCurso.innerText = 'Selecione a modalidade.';
     erroCurso.style.display = 'block';
     return;
   }
 
-  // 2️⃣ Curso obrigatório
-  const curso = localStorage.getItem('cursoSelecionado');
-
-  if (!curso) {
-    erroCurso.innerText = 'Selecione um curso para continuar.';
+  if (!localStorage.getItem('cursoSelecionado')) {
+    erroCurso.innerText = 'Selecione um curso.';
     erroCurso.style.display = 'block';
     return;
   }
 
-  // 3️⃣ Validação de matérias (presencial)
-  if (modalidadeSelecionada === 'presencial') {
-
-    if (
-      selectPresencial.value === 'NATCDF Combo 2 Matérias' &&
-      materiasSelecionadas.length !== 2
-    ) {
-      erroCurso.innerText = 'Selecione exatamente 2 matérias.';
-      erroCurso.style.display = 'block';
-      return;
-    }
-
-    if (
-      selectPresencial.value === 'NATCDF 1 Matéria' &&
-      materiasSelecionadas.length !== 1
-    ) {
-      erroCurso.innerText = 'Selecione 1 matéria.';
-      erroCurso.style.display = 'block';
-      return;
-    }
-  }
-
-  // 4️⃣ OK → Cadastro
   window.location.href = 'cadastro.html';
 }
